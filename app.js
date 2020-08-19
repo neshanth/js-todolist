@@ -1,12 +1,15 @@
-const form = document.querySelector("#form");
 const todoInput = document.querySelector('#todoInput');
 const todoList =  document.querySelector('.todo-list');
 const submitBtn = document.querySelector('#submit');
+const completedCount = document.querySelector('#completed');
+ 
+
 
 
 let editFlag = false;
 let editTodoId;
 let editElement;
+let completed = false;
 
 
 //Add todo Item to todoList
@@ -29,7 +32,7 @@ function addTodo()
   {
     renderTodos(id,todo);
     getLocalStorage();
-    addtoLocalStorage(id,todo);
+    addtoLocalStorage(id,todo,completed);
     
   }
   else if(todo!="" && editFlag)
@@ -41,6 +44,7 @@ function addTodo()
    
   }
   todoInput.value = "";
+  location.reload();
   
 }
 
@@ -50,9 +54,9 @@ function getLocalStorage(){
   ?JSON.parse(localStorage.getItem("list")) : [];
 }
 
-function addtoLocalStorage(id,value)
+function addtoLocalStorage(id,value,completed)
 {
-  const todo = {id,value};
+  const todo = {id,value,completed};
   let items = getLocalStorage();
   items.push(todo);
   localStorage.setItem("list",JSON.stringify(items));
@@ -68,12 +72,18 @@ function displayTodos(){
   items.forEach((item) => {
      renderTodos(item.id,item.value);
   })
- 
+   
+  let completedItems = items.filter(item => item.completed === true);
+  
+
+  const totalNoOfItems = document.querySelector('#noOfItems');
+  totalNoOfItems.textContent = `No of items :  ${items.length}`;
+  
 }
 
 function editTodo(e){
   const todo = e.target.parentElement.parentElement;
-  todoInput.value = todo.firstChild.textContent;
+  todoInput.value = todo.children[1].textContent;
   editFlag = true;
   editTodoId = todo.dataset.id;
 
@@ -87,7 +97,10 @@ function renderTodos(id,todo){
     const attr = document.createAttribute('data-id');
     attr.value = id;
     div.setAttributeNode(attr);
-    div.innerHTML  = `<p class="todo">${todo}</p>
+    div.innerHTML  = `
+   
+    <input type="checkbox" aria-label="Checkbox for following text input" class="checkbox">
+    <p class="todo">${todo}</p>
     <div class="btn-container">
     <i class="fa fa-pencil" id="edit" aria-hidden="true"></i>
     <i class="fa fa-trash" id="delete" aria-hidden="true"></i>
@@ -100,7 +113,8 @@ function renderTodos(id,todo){
     editBtn.addEventListener('click',editTodo);
     const deleteBtn = div.querySelector('#delete');
     deleteBtn.addEventListener('click',deleteTodo);
-
+    const checkbox = div.querySelector('.checkbox');
+    checkbox.addEventListener('change',isCompleted);
     todoList.appendChild(div);
     
    
@@ -132,6 +146,7 @@ function deleteTodo(e){
    console.log(todo);
    todo.parentNode.removeChild(todo);
    removeFromLocalStorage(todoId);
+   location.reload();
    
 }
 
@@ -159,3 +174,34 @@ let dayNumber = now.getDay();
 const title = document.querySelector('#title');
 title.textContent = `Enjoy Your  ${days[dayNumber]} 🍺`;
 
+function isCompleted(checkbox)
+{
+  let checkBox = checkbox.target;
+  let todoItem = checkBox.parentElement.children[1];
+  checkBox.checked ? todoItem.classList.add('completed'):todoItem.classList.remove('completed');
+  if(checkBox.checked === true)
+  {
+    completed = true
+    completedLocalStorage(completed,todoItem)
+     
+  }
+  else
+  {
+    completed = false;
+    completedLocalStorage(completed,todoItem);
+
+  }
+}
+
+function completedLocalStorage(completed,todoItem)
+{
+  let items = getLocalStorage();
+  items.forEach((item => {
+   if(todoItem.parentElement.dataset.id === item.id)
+   {
+       item.completed = completed;
+   }
+  }))
+
+  localStorage.setItem('list',JSON.stringify(items));
+}

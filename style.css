@@ -7,17 +7,11 @@ body {
   text-align: center;
   background-color: #7ee8fa;
   background-image: linear-gradient(315deg, #80ff72 74%);
-  font-family: 'Roboto', sans-serif;
-
+  font-family: "Roboto", sans-serif;
 }
 
 #title {
   margin-bottom: 1em;
-}
-
-.container {
-  margin-top: 5%;
-
 }
 
 .todo-item {
@@ -37,10 +31,21 @@ body {
 .todo {
   margin-right: 4.5em;
 }
+.card {
+  width: 20%;
+  margin: 0 auto;
+}
+.card-header {
+  text-align: left;
+}
+.checkbox {
+  margin-top: 0.4em;
+  margin-right: 0.7em;
+}
 
-
-
-
+.completed {
+  text-decoration: line-through black;
+}
 i {
   margin-right: 1em;
   color: whitesmoke;
@@ -58,7 +63,7 @@ i:hover {
 .fa-trash,
 .fa-pencil {
   background: tomato;
-  padding: .5em;
+  padding: 0.5em;
 }
 
 #edit {
@@ -66,7 +71,7 @@ i:hover {
 }
 
 .fa-trash {
-  margin-left: .5em;
+  margin-left: 0.5em;
 }
 
 .fa-pencil {
