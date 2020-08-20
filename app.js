@@ -84,7 +84,7 @@ function displayTodos(){
   const noOfTodos  = (() => { 
     let items = getLocalStorage();
     const noOfItems = document.querySelector('#noOfItems');
-    noOfItems.textContent = ` No Of Items: ${items.length}`;
+    noOfItems.textContent = ` No Of Items : ${items.length}`;
    });
   
  

@@ -30,8 +30,6 @@ body {
   max-width: 50%;
 }
 
-
-
 .card-header {
   text-align: left;
   background: white;
@@ -82,9 +80,7 @@ i:hover {
 
 
 @media (min-width:1024px) {
-  .card-header {
-    max-width: 30%;
-  }
+
 
   .todo-item:hover {
     background: #7d34eb;
