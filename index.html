@@ -15,33 +15,38 @@
 
 <body>
 
-  <div class="container">
+  <div class="container p-0">
     <img src="images/logo.png" width="130px" class="img-fluid">
     <h4 id="title">
     </h4>
-    <div class="form-group d-flex justify-content-center">
+    <div class="form-group d-flex justify-content-center ml-3">
       <input type="text" class="form-control mr-3" id="todoInput" style="width:320px;" aria-describedby="emailHelp"
         placeholder="Add todo" autocomplete="off">
       <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
       <i class="fa fa-plus mt-2" id="submit" type="submit" aria-hidden="true"></i>
+
+    </div>
+    <div>
+      <p id="error"></p>
     </div>
 
 
-    <div class="todo-container d-flex justify-content-center">
+    <div class="todo-container d-flex justify-content-center align-items-center ml-2 mr-2">
       <div class="todo-list">
 
       </div>
     </div>
-    <div class="card">
-      <div class="card-header d-flex justify-content-center">
-        <span id="noOfItems">111</span>
-      </div>
 
-
+    <div class="card-header d-flex justify-content-center">
+      <span id="noOfItems"></span>
     </div>
 
 
-    <script src="app.js"></script>
+
+  </div>
+
+
+  <script src="app.js"></script>
 </body>
 
 </html>

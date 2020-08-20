@@ -4,8 +4,6 @@ const submitBtn = document.querySelector('#submit');
 const completedCount = document.querySelector('#completed');
  
 
-
-
 let editFlag = false;
 let editTodoId;
 let editElement;
@@ -28,23 +26,30 @@ function addTodo()
   const id = new Date().getTime().toString();
   const todo = todoInput.value;
 
-  if(todo !== "" &&  !editFlag)
+  if(todo !== "" &&  editFlag === false)
   {
     renderTodos(id,todo);
     getLocalStorage();
     addtoLocalStorage(id,todo,completed);
+    notification('Item addded successfully',"text-success");
     
   }
-  else if(todo!="" && editFlag)
+  else if(todo!="" && editFlag === true)
   {
  
-   editElement = document.querySelector('.todo-item').firstChild;
-   editElement.textContent = todo;
+   editElement.children[1].textContent = todo;
    editLocalStorage(editTodoId,todo);
+   setToDefault();
    
   }
+  else
+  {
+    notification('Please enter something',"text-danger");
+  }
   todoInput.value = "";
-  location.reload();
+  
+  //function that returns the total no of todos
+  noOfTodos();
   
 }
 
@@ -72,20 +77,24 @@ function displayTodos(){
   items.forEach((item) => {
      renderTodos(item.id,item.value);
   })
-   
-  let completedItems = items.filter(item => item.completed === true);
-  
-
-  const totalNoOfItems = document.querySelector('#noOfItems');
-  totalNoOfItems.textContent = `No of items :  ${items.length}`;
-  
+   noOfTodos();
+  // let completedItems = items.filter(item => item.completed === true);
 }
 
+  const noOfTodos  = (() => { 
+    let items = getLocalStorage();
+    const noOfItems = document.querySelector('#noOfItems');
+    noOfItems.textContent = ` No Of Items: ${items.length}`;
+   });
+  
+ 
+ 
+
 function editTodo(e){
-  const todo = e.target.parentElement.parentElement;
-  todoInput.value = todo.children[1].textContent;
+   editElement = e.target.parentElement.parentElement;
+  todoInput.value = editElement.children[1].textContent;
   editFlag = true;
-  editTodoId = todo.dataset.id;
+  editTodoId = editElement.dataset.id;
 
  }
 
@@ -146,7 +155,7 @@ function deleteTodo(e){
    console.log(todo);
    todo.parentNode.removeChild(todo);
    removeFromLocalStorage(todoId);
-   location.reload();
+   noOfTodos();
    
 }
 
@@ -204,4 +213,24 @@ function completedLocalStorage(completed,todoItem)
   }))
 
   localStorage.setItem('list',JSON.stringify(items));
+}
+
+function setToDefault()
+{
+  editFlag = false;
+  editTodoId = "";
+  editElement = undefined;
+  
+}
+
+
+function notification(msg,className)
+{
+    const error = document.querySelector('#error');
+    error.textContent = `${msg}`;
+    error.classList.add(className);
+    setTimeout(() => {
+     error.textContent = "";
+     error.classList.remove(className);
+    },2000)
 }

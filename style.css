@@ -18,26 +18,27 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.8em;
-  margin-right: 2em;
+  margin-right: 1em;
   background-color: white;
   padding: 0.7em;
 }
 
-.todo-item:hover {
-  background: #7d34eb;
-  color: white;
-}
+
 
 .todo {
-  margin-right: 4.5em;
+  margin-right: 1em;
+  max-width: 50%;
 }
-.card {
-  width: 20%;
-  margin: 0 auto;
-}
+
+
+
 .card-header {
   text-align: left;
+  background: white;
+  max-width: 90%;
+  margin: 0 auto;
 }
+
 .checkbox {
   margin-top: 0.4em;
   margin-right: 0.7em;
@@ -46,6 +47,7 @@ body {
 .completed {
   text-decoration: line-through black;
 }
+
 i {
   margin-right: 1em;
   color: whitesmoke;
@@ -76,4 +78,16 @@ i:hover {
 
 .fa-pencil {
   background: #2e8b57;
+}
+
+
+@media (min-width:1024px) {
+  .card-header {
+    max-width: 30%;
+  }
+
+  .todo-item:hover {
+    background: #7d34eb;
+    color: white;
+  }
 }
